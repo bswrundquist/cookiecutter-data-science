@@ -1,0 +1,7 @@
+FROM bswrundquist/ai
+
+RUN sudo mkdir /opt/work
+WORKDIR /opt/work
+COPY . /opt/work
+
+RUN pip install -e .

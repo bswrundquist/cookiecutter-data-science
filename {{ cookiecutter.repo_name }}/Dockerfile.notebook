@@ -1,0 +1,7 @@
+FROM bswrundquist/tensorflow-notebook-gpu
+
+RUN sudo mkdir $HOME/work
+WORKDIR $HOME/work
+COPY . $HOME/work
+
+RUN pip install -e .
