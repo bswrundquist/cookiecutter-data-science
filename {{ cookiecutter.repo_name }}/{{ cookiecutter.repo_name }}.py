@@ -8,7 +8,7 @@ import random
 import datetime
 import glob
 import functools
-
+import docker
 
 class {{ cookiecutter.project_name }}CLI(object):
 
@@ -25,6 +25,7 @@ class {{ cookiecutter.project_name }}CLI(object):
 ''')
         parser.add_argument('command', help='Subcommand to run')
         args = parser.parse_args(sys.argv[1:2])
+        
         if not hasattr(self, args.command):
             print('Unrecognized command')
             parser.print_help()
@@ -44,24 +45,25 @@ class {{ cookiecutter.project_name }}CLI(object):
             description='Train and predict models')
         parser.add_argument('--train')
         parser.add_argument('--predict')
-        args = parser.parse_args(sys.argv[2:]
+        args = parser.parse_args(sys.argv[2:])
 
     def notebook(self):
         parser = argparse.ArgumentParser(
             description='Deploy notebooks')
-        args = parser.parser_args(sys.argv[2:])
+        args = parser.parse_args(sys.argv[2:])
 
     def build(self):
+        client = docker.from_env()
         parser = argparse.ArgumentParser(
             description='Create environments to work within')
         parser.add_argument('--develop', action='store_true')
         parser.add_argument('--train', action='store_true')
         parser.add_argument('--predict', action='store_true')
-        args = parser.parser_args(sys.argv[2:])
+        args = parser.parse_args(sys.argv[2:])
 	
         if args.develop:
             develop_tag = '{{ cookiecutter.project_name }}-develop' # attach username....
-            client.build(path='.', dockerfile='Dockerfile.develop', tag=develop_tag)
+            client.images.build(path='.', dockerfile='Dockerfile.develop', tag=develop_tag)
             client.containers.run(develop_tag, 
                                 name=develop_tag,
                                 command="start-notebook.sh --NotebookApp.token=''",
