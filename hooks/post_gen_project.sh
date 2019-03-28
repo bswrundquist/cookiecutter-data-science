@@ -6,6 +6,7 @@ echo "Initializing project $PROJECT_NAME"
 sudo apt -y install python3-pip
 sudo pip3 install dvc[gs]
 sudo pip3 install cookiecutter
+sudo pip3 install docker
 
 echo "Setting up code versioning"
 git init
