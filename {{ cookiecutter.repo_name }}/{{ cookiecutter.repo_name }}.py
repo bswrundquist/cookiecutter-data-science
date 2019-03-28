@@ -10,7 +10,7 @@ import glob
 import functools
 import docker
 
-class {{ cookiecutter.project_name }}CLI(object):
+class ProjectCLI(object):
 
     def __init__(self):
         parser = argparse.ArgumentParser(
@@ -59,20 +59,25 @@ class {{ cookiecutter.project_name }}CLI(object):
         parser.add_argument('--develop', action='store_true')
         parser.add_argument('--train', action='store_true')
         parser.add_argument('--predict', action='store_true')
+        parser.add_argument('--gpu', action='store_true')
         args = parser.parse_args(sys.argv[2:])
 	
         if args.develop:
-            develop_tag = '{{ cookiecutter.project_name }}-develop' # attach username....
-            client.images.build(path='.', dockerfile='Dockerfile.develop', tag=develop_tag)
-            client.containers.run(develop_tag, 
-                                name=develop_tag,
-                                command="start-notebook.sh --NotebookApp.token=''",
-                                ports={'8888/tcp' : 8888},
-                                runtime='nvidia',
-                                working_dir='/home/jovyan/work',
-                                detach=True) # volume={'rops': {'bind': '/home/jovyan/work', 'mode': 'rw'}}
+            proj_dev = '{{ cookiecutter.project_name }}-develop' # attach username....
+            data_path = ''
+            client.images.build(path='.', dockerfile='Dockerfile.develop', tag=proj_dev)
+            run = functools.partial(client.containers.run, 
+                                    proj_dev, 
+                                    name=proj_dev,
+                                    command="start-notebook.sh --NotebookApp.token=''",
+                                    ports={'8888/tcp' : 8888},
+                                    working_dir='/home/jovyan/work',
+                                    detach=True) # volume={'rops': {'bind': '/home/jovyan/work', 'mode': 'rw'}}
                                 # environment={'DATA_PATH': '/home/jovyan/work/data', ....}
-
+            if args.gpu:
+                run(runtime='nvidia')
+            else:
+                run()
 
 if __name__ == '__main__':
-    {{ cookiecutter.project_name }}CLI()
+    ProjectCLI()
