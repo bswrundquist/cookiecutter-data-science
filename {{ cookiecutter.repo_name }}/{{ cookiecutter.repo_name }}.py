@@ -56,6 +56,7 @@ class ProjectCLI(object):
         parser = argparse.ArgumentParser(
             description='Create environments to work within')
         parser.add_argument('--env', choices=['develop', 'train', 'predict'], default='develop')
+        parser.add_argument('--port', type=int, default=8888)
         parser.add_argument('--gpu', action='store_true')
         args = parser.parse_args(sys.argv[2:])
         cwd = os.getcwd()
@@ -67,15 +68,16 @@ class ProjectCLI(object):
                                     proj_dev, 
                                     name=proj_dev,
                                     command="start-notebook.sh --NotebookApp.token=''",
-                                    ports={'8888/tcp' : 8888},
+                                    ports={'8888/tcp' : args.port},
                                     volumes={cwd: {'bind': '/home/jovyan/work', 'mode': 'rw'}},
                                     working_dir='/home/jovyan/work',
                                     environment={'ENV': args.env},
+                                    user='root',
                                     detach=True)
             if args.gpu:
-                run(runtime='nvidia')
+                run(name='{proj_dev}-gpu'.format(proj_dev=proj_dev), runtime='nvidia')
             else:
-                run()
+                run(name=proj_dev)
 
 if __name__ == '__main__':
     ProjectCLI()
