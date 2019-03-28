@@ -22,3 +22,6 @@ dvc remote add -d data gs://$PROJECT_NAME/data
 git add .dvc/config
 git commit -m 'add data and checkpoints to dvc'
 git push --set-upstream origin master
+
+git add --all
+git push --set-upstream origin master
