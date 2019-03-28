@@ -37,7 +37,6 @@ class ProjectCLI(object):
             description='General data related tasks')
         parser.add_argument('--source', action='store_true')
         parser.add_argument('--engineer', action='store_true')
-        parser.add_argument('--env', choices=['develop', 'train', 'predict'], default='develop')
         args = parser.parse_args(sys.argv[2:])
 
     def model(self):
@@ -56,15 +55,13 @@ class ProjectCLI(object):
         client = docker.from_env()
         parser = argparse.ArgumentParser(
             description='Create environments to work within')
-        parser.add_argument('--develop', action='store_true')
-        parser.add_argument('--train', action='store_true')
-        parser.add_argument('--predict', action='store_true')
+        parser.add_argument('--env', choices=['develop', 'train', 'predict'], default='develop')
         parser.add_argument('--gpu', action='store_true')
         args = parser.parse_args(sys.argv[2:])
 	
-        if args.develop:
-            proj_dev = '{{ cookiecutter.project_name }}-develop' # attach username....
-            data_path = ''
+        if args.env == 'develop':
+            proj_dev = '{{ cookiecutter.project_name }}-develop' # attach username...
+            # Just volume map the cwd assuming data is present at this point (dvc fetch -r data -> python3 aa.py build)
             client.images.build(path='.', dockerfile='Dockerfile.develop', tag=proj_dev)
             run = functools.partial(client.containers.run, 
                                     proj_dev, 
