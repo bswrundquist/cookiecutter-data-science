@@ -24,4 +24,5 @@ git commit -m 'add data and checkpoints to dvc'
 git push --set-upstream origin master
 
 git add --all
+git commit -m 'Add cookiecutter'
 git push --set-upstream origin master
