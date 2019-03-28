@@ -1,6 +1,6 @@
 FROM bswrundquist/ai
 
-RUN sudo mkdir /opt/work
+RUN mkdir /opt/work
 WORKDIR /opt/work
 COPY . /opt/work
 
