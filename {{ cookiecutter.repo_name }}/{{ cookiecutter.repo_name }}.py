@@ -58,7 +58,7 @@ class ProjectCLI(object):
         parser.add_argument('--env', choices=['develop', 'train', 'predict'], default='develop')
         parser.add_argument('--gpu', action='store_true')
         args = parser.parse_args(sys.argv[2:])
-	
+        cwd = os.getcwd()
         if args.env == 'develop':
             proj_dev = '{{ cookiecutter.project_name }}-develop' # attach username...
             # Just volume map the cwd assuming data is present at this point (dvc fetch -r data -> python3 aa.py build)
@@ -68,9 +68,10 @@ class ProjectCLI(object):
                                     name=proj_dev,
                                     command="start-notebook.sh --NotebookApp.token=''",
                                     ports={'8888/tcp' : 8888},
+                                    volumes={cwd: {'bind': '/home/jovyan/work', 'mode': 'rw'}},
                                     working_dir='/home/jovyan/work',
-                                    detach=True) # volume={'rops': {'bind': '/home/jovyan/work', 'mode': 'rw'}}
-                                # environment={'DATA_PATH': '/home/jovyan/work/data', ....}
+                                    environment={'ENV': args.env},
+                                    detach=True)
             if args.gpu:
                 run(runtime='nvidia')
             else:
