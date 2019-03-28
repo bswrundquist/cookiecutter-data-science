@@ -2,8 +2,8 @@
 
 PROJECT_NAME='{{ cookiecutter.project_name }}'
 
-#apt -y install python3-pip
-pip3 install dvc[gs]
+sudo apt -y install python3-pip
+suddo pip3 install dvc[gs]
 
 # set env variable ENV = develop, train
 dvc init
