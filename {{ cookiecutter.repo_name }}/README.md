@@ -40,21 +40,26 @@ Project Organization
     ├── src                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module.
     │   │
-    │   ├── data           <- Scripts to download or generate data.
+    │   ├── data           <- Code to download or generate data.
     │   │   └── source.py
     │   │   └── engineer.py
+    │   │   └── plot.py
     │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions.
-    │   │   ├── predict.py
-    │   │   └── train.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations.
-    │       └── plot.py
+    │   └── verbs          <- Different models needed to create final output.
+    │       │                 predictions.
+    │       └── example    <- Example of folder and files for modeling effort.
+    │           └── train.py
+    │           └── predict.py
+    │           └── plot.py
+    │           └── parameters.json
+    │   
+    │   
+    ├── tox.ini            <- tox file with settings for running tox; see tox.testrun.org.
     │
-    └── tox.ini            <- tox file with settings for running tox; see tox.testrun.org.
-
+    └── {{ cookiecutter.repo_name }}.py              <- CLI to tie everything together.
 
 --------
+
+{{cookiecutter.stakeholders}}
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
