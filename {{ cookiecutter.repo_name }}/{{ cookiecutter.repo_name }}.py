@@ -19,7 +19,8 @@ class ProjectCLI(object):
 
 {{ cookiecutter.project_name }}.py contains the following commands:
    data       General data related tasks
-   model      Train and predict models
+   train      Train models
+   predict    Use trained models for prediction
    notebook   Deploy notebooks
    build      Create environments to work within
 ''')
@@ -39,11 +40,22 @@ class ProjectCLI(object):
         parser.add_argument('--engineer', action='store_true')
         args = parser.parse_args(sys.argv[2:])
 
-    def model(self):
+    def train(self):
         parser = argparse.ArgumentParser(
-            description='Train and predict models')
-        parser.add_argument('--train')
+            description='Train models')
+        parser.add_argument('--verb', choices=['example'])
+        parser.add_argument('--name')
+        parser.add_argument('--parameters')
         parser.add_argument('--predict')
+        args = parser.parse_args(sys.argv[2:])
+
+    def predict(self):
+        parser = argparse.ArgumentParser(
+            description='Use trained models for prediction')
+        parser.add_argument('--verb')
+        parser.add_argument('--name')
+        parser.add_argument('--parameters')
+        parser.add_argument('--checkpoint')
         args = parser.parse_args(sys.argv[2:])
 
     def notebook(self):
@@ -59,25 +71,62 @@ class ProjectCLI(object):
         parser.add_argument('--port', type=int, default=8888)
         parser.add_argument('--gpu', action='store_true')
         args = parser.parse_args(sys.argv[2:])
+        
+        proj_env = '{{ cookiecutter.project_name }}-{env}'.format(env=args.env)
+        dockerfile = 'Dockerfile.{env}'.format(env=args.env)
+
+        image_params = {
+            'path': '.',
+            'dockerfile': dockerfile,
+            'tag': proj_env
+        }
+        client.images.build(**image_params)
+
+        run_params = {
+            'name': image_params['tag'],
+            'image': image_params['tag'],
+            'environment': {'ENV': args.env},
+            'user': 'root',
+            'detach': True
+        }
+
+        if args.gpu:
+            run_params['runtime'] = 'nvidia'
+            run_params['name'] = '{name}-gpu'.format(name=run_params['name'])
+
+        base_run = functools.partial(client.container.run, **run_params)
         cwd = os.getcwd()
+
         if args.env == 'develop':
-            proj_dev = '{{ cookiecutter.project_name }}-develop' # attach username...
-            # Just volume map the cwd assuming data is present at this point (dvc fetch -r data -> python3 aa.py build)
-            client.images.build(path='.', dockerfile='Dockerfile.develop', tag=proj_dev)
-            run = functools.partial(client.containers.run, 
-                                    proj_dev, 
-                                    name=proj_dev,
-                                    command="start-notebook.sh --NotebookApp.token=''",
-                                    ports={'8888/tcp' : args.port},
-                                    volumes={cwd: {'bind': '/home/jovyan/work', 'mode': 'rw'}},
-                                    working_dir='/home/jovyan/work',
-                                    environment={'ENV': args.env},
-                                    user='root',
-                                    detach=True)
-            if args.gpu:
-                run(name='{proj_dev}-gpu'.format(proj_dev=proj_dev), runtime='nvidia')
-            else:
-                run(name=proj_dev)
+            env_params = {
+                'command': "start-notebook.sh --NotebookApp.token=''",
+                'ports': {'8888/tcp' : args.port},
+                'volumes': {cwd: {'bind': '/home/jovyan/work', 'mode': 'rw'}},
+                'working_dir': '/home/jovyan/work'
+            }
+
+        elif args.env == 'train':
+            env_params = create_train_or_predict_params(which='train', args=args)
+
+        elif args.env == 'predict':
+            env_params = create_train_or_predict_params(which='predict', args=args)
+
+        base_run(**env_params)
+
+def create_train_or_predict_params(which, args):
+    if not args.command:
+        args.command = f'python /opt/{{ cookiecutter.project_name }}.py {which}'
+    if args.name:
+        args.command += f' --name={args.name}'
+
+    cwd = os.getcwd()
+    params = {
+        'command': args.command,
+        'volumes': {cwd: {'bind': '/opt', 'mode': 'rw'}},
+        'working_dir': '/opt'
+    }
+
+    return params
 
 if __name__ == '__main__':
     ProjectCLI()
