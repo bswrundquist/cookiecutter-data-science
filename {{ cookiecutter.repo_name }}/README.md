@@ -46,7 +46,6 @@ Project Organization
     │   │   └── plot.py
     │   │
     │   └── verbs          <- Different models needed to create final output.
-    │       │                 predictions.
     │       └── example    <- Example of folder and files for modeling effort.
     │           └── train.py
     │           └── predict.py
