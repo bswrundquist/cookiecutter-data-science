@@ -10,25 +10,25 @@ Project Organization
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── engineer       <- Finalized data with schema, scaler, imputer, etc needed for train and predict.
-    │   └── source         <- The original, immutable data dump.
+    │    ├── external       <- Data from third party sources.
+    │    ├── engineer       <- Finalized data with schema, scaler, imputer, etc needed for train and predict.
+    │    └── source         <- The original, immutable data dump.
     │
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details.
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries.
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │   │                      the creator's initials, and a short `-` delimited description, e.g.
-    │   │                      `1.0-jqp-initial-data-exploration`.
-    │   │
-    │   └── local          <- Create with a reasonable dataset compared to working environment.
-    │   └── deployed       <- Deploy creation of notebook through a job.
+    │    │                      the creator's initials, and a short `-` delimited description, e.g.
+    │    │                      `1.0-jqp-initial-data-exploration`.
+    │    │
+    │    └── local          <- Create with a reasonable dataset compared to working environment.
+    │    └── deployed       <- Deploy creation of notebook through a job.
     │
     ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
     │
     ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting.
+    │    └── figures        <- Generated graphics and figures to be used in reporting.
     │
     ├── Dockerfile.develop <- Define environment for development.
     │
@@ -36,26 +36,27 @@ Project Organization
     │
     ├── Dockerfile.predict <- Define environment to deploy model.
     │
+    ├── cli.py             <- CLI to tie everything together.
+    │
     ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported.
     ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module.
-    │   │
-    │   ├── data           <- Code to download or generate data.
-    │   │   └── source.py
-    │   │   └── engineer.py
-    │   │   └── plot.py
-    │   │
-    │   └── verbs          <- Different models needed to create final output.
-    │       └── example    <- Example of folder and files for modeling effort.
-    │           └── train.py
-    │           └── predict.py
-    │           └── plot.py
-    │           └── parameters.json
-    │   
-    │   
-    ├── tox.ini            <- tox file with settings for running tox; see tox.testrun.org.
+    │    ├── __init__.py    <- Makes src a Python module.
+    │    │
+    │    ├── data           <- Code to download or generate data.
+    │    │   └── source.py
+    │    │   └── engineer.py
+    │    │
+    │    ├── verbs          <- Different models needed to create final output.
+    │    │    └── example    <- Example of folder and files for modeling effort.
+    │    │        └── train.py
+    │    │        └── predict.py
+    │    │        └── parameters.json
+    │    │
+    │    └── visualization
+    │         └── plots.py <- Plotting functions.
     │
-    └── {{ cookiecutter.repo_name }}.py              <- CLI to tie everything together.
+    └── tox.ini            <- tox file with settings for running tox; see tox.testrun.org.
+ 
 
 --------
 
