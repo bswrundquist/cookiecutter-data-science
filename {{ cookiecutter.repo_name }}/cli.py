@@ -82,10 +82,16 @@ class ProjectCLI(object):
         }
         client.images.build(**image_params)
 
+        environment = {
+            'ENV': args.env,
+            'GRANT_SUDO': 'yes',
+            'CHOWN_EXTRA': '/home/jovyan/work',
+            'CHOWN_EXTRA_OPTS': '-R'
+        }
         run_params = {
             'name': image_params['tag'],
             'image': image_params['tag'],
-            'environment': {'ENV': args.env},
+            'environment': environment,
             'user': 'root',
             'detach': True
         }
