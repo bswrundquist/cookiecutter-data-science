@@ -53,7 +53,7 @@ Project Organization
     │    │         └── parameters.json
     │    │
     │    └── visualization
-    │         └── plots.py <- Plotting functions.
+    │          └── plots.py <- Plotting functions.
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.testrun.org.
  
