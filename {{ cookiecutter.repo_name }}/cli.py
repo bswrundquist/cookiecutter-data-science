@@ -115,9 +115,9 @@ class ProjectCLI(object):
 
 def create_train_or_predict_params(which, args):
     if not args.command:
-        args.command = f'python /opt/{{ cookiecutter.project_name }}.py {which}'
+        args.command = 'python /opt/{{ cookiecutter.project_name }}.py {which}'.format(which=which)
     if args.name:
-        args.command += f' --name={args.name}'
+        args.command += ' --name={name}'.format(name=args.name)
 
     cwd = os.getcwd()
     params = {
