@@ -43,14 +43,14 @@ Project Organization
     │    ├── __init__.py    <- Makes src a Python module.
     │    │
     │    ├── data           <- Code to download or generate data.
-    │    │   └── source.py
-    │    │   └── engineer.py
+    │    │    └── source.py
+    │    │    └── engineer.py
     │    │
     │    ├── verbs          <- Different models needed to create final output.
     │    │    └── example    <- Example of folder and files for modeling effort.
-    │    │        └── train.py
-    │    │        └── predict.py
-    │    │        └── parameters.json
+    │    │         └── train.py
+    │    │         └── predict.py
+    │    │         └── parameters.json
     │    │
     │    └── visualization
     │         └── plots.py <- Plotting functions.
