@@ -94,7 +94,7 @@ class ProjectCLI(object):
             run_params['runtime'] = 'nvidia'
             run_params['name'] = '{name}-gpu'.format(name=run_params['name'])
 
-        base_run = functools.partial(client.container.run, **run_params)
+        base_run = functools.partial(client.containers.run, **run_params)
         cwd = os.getcwd()
 
         if args.env == 'develop':
