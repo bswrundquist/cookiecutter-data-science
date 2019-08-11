@@ -12,7 +12,6 @@ readme = "README.md"
 
 homepage = "https://pypi.org/project/{{cookiecutter.repo_name}}"
 documentation = "https://{{cookiecutter.repo_name}}.readthedocs.io"
-# repository = "https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}}"
 
 keywords = [
 ]
