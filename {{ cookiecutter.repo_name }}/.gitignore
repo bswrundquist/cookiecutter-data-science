@@ -89,4 +89,4 @@ target/
 *.swo
 
 # Mypy cache
-.mypy_cache/
+.cache/mypy/
