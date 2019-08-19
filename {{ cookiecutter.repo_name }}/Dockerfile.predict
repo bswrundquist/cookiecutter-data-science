@@ -1,7 +1,0 @@
-FROM bswrundquist/ai
-
-RUN mkdir /opt/work
-WORKDIR /opt/work
-COPY . /opt/work
-
-RUN pip install -e .
