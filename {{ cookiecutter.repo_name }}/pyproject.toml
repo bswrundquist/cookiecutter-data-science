@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "{{cookiecutter.repo_name}}"
-version = "0.0"
+version = "0.0.0"
 description = "{{cookiecutter.description}}"
 
 license = "MIT"
@@ -10,8 +10,8 @@ authors = ["{{cookiecutter.team_name}} <{{cookiecutter.point_of_contact}}>"]
 
 readme = "README.md"
 
-homepage = "https://pypi.org/project/{{cookiecutter.repo_name}}"
-documentation = "https://{{cookiecutter.repo_name}}.readthedocs.io"
+#homepage = "https://pypi.org/project/{{cookiecutter.repo_name}}"
+#documentation = "https://{{cookiecutter.repo_name}}.readthedocs.io"
 
 keywords = [
 ]
