@@ -25,7 +25,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 
-#python = "^{{cookiecutter.python_interpreter}}"
+python = "^3.6 || ^3.7"
 
 # TODO: Remove these and add your library's requirements
 click = "^6.0"
