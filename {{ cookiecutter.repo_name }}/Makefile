@@ -4,7 +4,8 @@
 # GLOBALS                                                                       #
 #################################################################################
 
-PROJECT_NAME = {{ cookiecutter.repo_name }}
+REPO_NAME = {{ cookiecutter.repo_name }}
+PROJECT_NAME = {{ cookiecutter.project_name }}
 PYTHON_INTERPRETER = {{ cookiecutter.python_interpreter }}
 PORT := 8888
 
@@ -16,11 +17,11 @@ endif
 
 ## Create Workspace
 workspace:
-	docker build -t $(PROJECT_NAME)-workspace -f docker/Dockerfile docker
+	docker build -t $(REPO_NAME)-workspace -f docker/Dockerfile docker
 	docker run -itd \
 				--env-file .env \
 				-p $PORT:8888 \
-				--name $(PROJECT_NAME)-workspace \
+				--name $(REPO_NAME)-workspace \
 				-v {PWD}:/work \
 				-v ~/.gcp:/home/jovyan/.gcp \
 				-e GOOGLE_APPLICATION_CREDENTIALS=/home/jovyan/.gcp/(PROJECT_NAME).json \
@@ -30,7 +31,7 @@ workspace:
 				-e CHOWN_EXTRA="/home/jovyan" \
 				-e CHOWN_EXTRA_OPTS='-R' \
 				--user root \
-				$(PROJECT_NAME)-workspace \
+				$(REPO_NAME)-workspace \
 				start-notebook.sh --NotebookApp.token=''
 
 
