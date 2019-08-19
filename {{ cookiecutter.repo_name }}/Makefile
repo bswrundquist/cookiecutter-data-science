@@ -17,7 +17,7 @@ endif
 
 ## Create Workspace
 workspace:
-	docker build -t $(REPO_NAME)-workspace -f docker/Dockerfile docker
+	docker build -t $(REPO_NAME)-workspace -f docker/Dockerfile .
 	docker run -itd \
 				--env-file .env \
 				-p $PORT:8888 \
