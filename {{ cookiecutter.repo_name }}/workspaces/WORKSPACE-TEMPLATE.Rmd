@@ -1,0 +1,26 @@
+---
+libtitle: "Workspace Template"
+output: html_document
+params:
+  bucket:
+    label: "Bucket"
+    value: "bucket-test"
+  input_path:
+    label: "Input_Path"
+    value: "/tmp/input_path"
+  output_path:
+    label: "Output_Path"
+    value: "/tmp/output_path"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+library(googleCloudStorageR)
+print("Params:", params)
+```
+
