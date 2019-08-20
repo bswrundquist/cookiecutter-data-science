@@ -6,8 +6,10 @@
 
 REPO_NAME = {{ cookiecutter.repo_name }}
 PROJECT_NAME = {{ cookiecutter.project_name }}
+NAME = $(PROJECT_NAME)-$(REPO_NAME)
 PYTHON_INTERPRETER = {{ cookiecutter.python_interpreter }}
 PORT := 8888
+
 
 ifeq (,$(shell which conda))
 HAS_CONDA=False
@@ -16,23 +18,30 @@ HAS_CONDA=True
 endif
 
 ## Create Workspace
+workspace-stop:
+        docker stop $(NAME)-workspace
+
+workspace-clean: workspace-stop
+        docker rm $(NAME)-workspace
+        docker rmi $(NAME)-workspace
+
 workspace:
-	docker build -t $(REPO_NAME)-workspace -f docker/Dockerfile .
-	docker run -itd \
-				--env-file .env \
-				-p $PORT:8888 \
-				--name $(REPO_NAME)-workspace \
-				-v {PWD}:/work \
-				-v ~/.gcp:/home/jovyan/.gcp \
-				-e GOOGLE_APPLICATION_CREDENTIALS=/home/jovyan/.gcp/(PROJECT_NAME).json \
-				-e NB_GID=100 \
-				-e GRANT_SUDO=yes \
-				-e CHOWN_EXTRA="/home/jovyan/.gcp" \
-				-e CHOWN_EXTRA="/home/jovyan" \
-				-e CHOWN_EXTRA_OPTS='-R' \
-				--user root \
-				$(REPO_NAME)-workspace \
-				start-notebook.sh --NotebookApp.token=''
+        docker build -t $(NAME)-workspace -f docker/Dockerfile .
+        docker run -itd \
+					--env-file .env \
+					-p $(PORT):8888 \
+					--name $(NAME)-workspace \
+					-v $(PWD):/home/jovyan/work \
+					-v ~/.gcp:/home/jovyan/.gcp \
+					-e GOOGLE_APPLICATION_CREDENTIALS=/home/jovyan/.gcp/$(PROJECT_NAME).json \
+					-e NB_GID=100 \
+					-e GRANT_SUDO=yes \
+					-e CHOWN_EXTRA="/home/jovyan/.gcp" \
+					-e CHOWN_EXTRA="/home/jovyan" \
+					-e CHOWN_EXTRA_OPTS='-R' \
+					--user root \
+					$(NAME)-workspace \
+					start-notebook.sh --NotebookApp.token=''
 
 
 #################################################################################
