@@ -1,4 +1,4 @@
-ROM bswrundquist/jn-ext
+FROM bswrundquist/jn-ext
 
 RUN curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | /opt/conda/bin/python
 
