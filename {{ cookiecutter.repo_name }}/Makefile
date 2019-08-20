@@ -19,29 +19,29 @@ endif
 
 ## Create Workspace
 workspace-stop:
-        docker stop $(NAME)-workspace
+	docker stop $(NAME)-workspace
 
 workspace-clean: workspace-stop
-        docker rm $(NAME)-workspace
-        docker rmi $(NAME)-workspace
+	docker rm $(NAME)-workspace
+	docker rmi $(NAME)-workspace
 
 workspace:
-        docker build -t $(NAME)-workspace -f docker/Dockerfile .
-        docker run -itd \
-					--env-file .env \
-					-p $(PORT):8888 \
-					--name $(NAME)-workspace \
-					-v $(PWD):/home/jovyan/work \
-					-v ~/.gcp:/home/jovyan/.gcp \
-					-e GOOGLE_APPLICATION_CREDENTIALS=/home/jovyan/.gcp/$(PROJECT_NAME).json \
-					-e NB_GID=100 \
-					-e GRANT_SUDO=yes \
-					-e CHOWN_EXTRA="/home/jovyan/.gcp" \
-					-e CHOWN_EXTRA="/home/jovyan" \
-					-e CHOWN_EXTRA_OPTS='-R' \
-					--user root \
-					$(NAME)-workspace \
-					start-notebook.sh --NotebookApp.token=''
+	docker build -t $(NAME)-workspace -f docker/Dockerfile .
+	docker run -itd \
+			--env-file .env \
+			-p $(PORT):8888 \
+			--name $(NAME)-workspace \
+			-v $(PWD):/home/jovyan/work \
+			-v ~/.gcp:/home/jovyan/.gcp \
+			-e GOOGLE_APPLICATION_CREDENTIALS=/home/jovyan/.gcp/$(PROJECT_NAME).json \
+			-e NB_GID=100 \
+			-e GRANT_SUDO=yes \
+			-e CHOWN_EXTRA="/home/jovyan/.gcp" \
+			-e CHOWN_EXTRA="/home/jovyan" \
+			-e CHOWN_EXTRA_OPTS='-R' \
+			--user root \
+			$(NAME)-workspace \
+			start-notebook.sh --NotebookApp.token=''
 
 
 #################################################################################
