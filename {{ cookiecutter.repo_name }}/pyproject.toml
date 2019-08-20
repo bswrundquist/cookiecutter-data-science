@@ -30,6 +30,7 @@ python = "^3.6 || ^3.7"
 # TODO: Remove these and add your library's requirements
 click = "^6.0"
 minilog = "~0.4"
+pyyaml = "5.1"
 
 [tool.poetry.dev-dependencies]
 
