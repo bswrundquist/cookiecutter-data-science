@@ -8,7 +8,7 @@ REPO_NAME = {{ cookiecutter.repo_name }}
 PROJECT_NAME = {{ cookiecutter.project_name }}
 NAME = $(PROJECT_NAME)-$(REPO_NAME)
 PYTHON_INTERPRETER = {{ cookiecutter.python_interpreter }}
-PORT := 8888
+WORKSPACE_PORT := 8888
 
 
 ifeq (,$(shell which conda))
@@ -29,7 +29,7 @@ workspace:
 	docker build -t $(NAME)-workspace -f docker/Dockerfile .
 	docker run -itd \
 			--env-file .env \
-			-p $(PORT):8888 \
+			-p $(WORKSPACE_PORT):8888 \
 			--name $(NAME)-workspace \
 			-v $(PWD):/home/jovyan/work \
 			-v ~/.gcp:/home/jovyan/.gcp \
