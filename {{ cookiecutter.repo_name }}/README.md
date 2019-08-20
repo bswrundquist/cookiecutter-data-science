@@ -3,6 +3,20 @@
 
 {{cookiecutter.description}}
 
+Setup Workspace
+----------------
+
+Using Docker and Makefile we can spin up a workspace using Jupyter notebook according the Dockerfile in the docker folder.
+
+```bash
+make workspace
+```
+Or to use a specific port run the following.
+
+```bash
+make workspace WORKSPACE_PORT=9999
+```
+
 Project Organization
 ------------
 
@@ -16,12 +30,6 @@ Project Organization
 ├── docker
 │   └── Dockerfile
 ├── docs
-│   ├── Makefile
-│   ├── commands.rst
-│   ├── conf.py
-│   ├── getting-started.rst
-│   ├── index.rst
-│   └── make.bat
 ├── models
 ├── poetry.lock
 ├── pyproject.toml
